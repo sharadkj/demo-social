@@ -41,31 +41,43 @@ if st.button("Submit"):
     st.write("## Your Selected Interests:")
     st.write(user_profile)
     
-    sys_prompt = 'Act as a marketing analyst for my tech company.'
+    #sys_prompt = 'Act as a marketing analyst for my tech company.'
     
-    init_prompt = 'Given the following list of interests from a high school student, generate a possible customer profile as well as a slogan that may appeal to them: ' + user_profile[0] + ", " + user_profile[1] + ", " + user_profile[2] + ", " + user_profile[3]
+    init_prompt = 'Given the following list of interests from a high school student, generate an ad for a new smart phone that targets them based off these interests: ' + user_profile[0] + ", " + user_profile[1] + ", " + user_profile[2] + ", " + user_profile[3]
     
-    response = client.chat.completions.create(
-      model="gpt-4-turbo-preview",
-      messages=[
-        {"role": "system", "content": sys_prompt},
-        {"role": "user", "content": init_prompt}
-      ]
-    )
-    
-    st.write(response.choices[0].message.content)
-    
-    
-demo_info = st.text_area("Ad to generate...")
-if st.button("Generate ad"):
     
     response = client.images.generate(
       model="dall-e-3",
-      prompt=demo_info,
+      prompt=init_prompt,
       size="1024x1024",
       quality="standard",
       n=1,
     )
-
     image_url = response.data[0].url
+    st.write("Next ad in your feed")
     st.image(image_url, width=600)
+    
+#     response = client.chat.completions.create(
+#       model="gpt-4-turbo-preview",
+#       messages=[
+#         {"role": "system", "content": sys_prompt},
+#         {"role": "user", "content": init_prompt}
+#       ]
+#     )
+    
+#     st.write(response.choices[0].message.content)
+    
+    
+# demo_info = st.text_area("Ad to generate...")
+# if st.button("Generate ad"):
+    
+#     response = client.images.generate(
+#       model="dall-e-3",
+#       prompt=demo_info,
+#       size="1024x1024",
+#       quality="standard",
+#       n=1,
+#     )
+
+#     image_url = response.data[0].url
+#     st.image(image_url, width=600)
